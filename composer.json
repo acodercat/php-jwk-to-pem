@@ -1,0 +1,18 @@
+{
+    "name": "codercat/jwk-to-pem",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "codercat",
+            "email": "1067302838@qq.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "CoderCat\\JWKToPEM\\": "src/"
+        }
+    }
+}
