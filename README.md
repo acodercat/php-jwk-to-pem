@@ -33,7 +33,8 @@ $jwk = [
 Convert to PEM format:
 
 ``` php
-$jwkConverter->toPEM($jwk);
+$convertedJwk = $jwkConverter->toPEM($jwk);
+echo $convertedJwk;
 ```
 
 The PEM for this jwk:
