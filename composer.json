@@ -9,7 +9,11 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "php": ">=7.0.0",
+        "phpseclib/phpseclib": "~2.0",
+        "ext-gmp": "*"
+    },
     "autoload": {
         "psr-4": {
             "CoderCat\\JWKToPEM\\": "src/"
