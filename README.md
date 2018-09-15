@@ -17,7 +17,7 @@ composer require codercat/jwk-to-pem
 
 use CoderCat\JWKToPEM\JWKConverter;
 
-$converter = new JWKConverter();
+$jwkConverter = new JWKConverter();
 
 // !!!! RSA key type is currently only supported.
 $jwk = [
@@ -33,7 +33,7 @@ $jwk = [
 Convert to PEM format:
 
 ``` php
-$converter->toPEM($jwk);
+$jwkConverter->toPEM($jwk);
 ```
 
 The PEM for this jwk:
