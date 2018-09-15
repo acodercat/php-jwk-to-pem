@@ -35,6 +35,10 @@ class JWKConverter
             throw new JWKConverterException('RSA key type is currently only supported.');
         }
 
+        if (array_key_exists('d', $jwk)) {
+            throw new JWKConverterException('Public key is currently only supported.');
+        }
+
         $rsa = new RSA();
         $base64UrlDecoder = new Base64UrlDecoder();
         $rsa->loadKey(
