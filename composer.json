@@ -1,5 +1,6 @@
 {
     "name": "codercat/jwk-to-pem",
+    "description": "Convert JWK to PEM format.",
     "type": "library",
     "license": "MIT",
     "authors": [
