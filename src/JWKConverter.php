@@ -19,6 +19,14 @@ use CoderCat\JWKToPEM\Exception\JWKConverterException;
 class JWKConverter
 {
 
+    /** @var Base64UrlDecoder */
+    private $base64UrlDecoder;
+
+    public function __construct(?Base64UrlDecoder $base64UrlDecoder = null)
+    {
+        $this->base64UrlDecoder = $base64UrlDecoder ?? new Base64UrlDecoder();
+    }
+
     /**
      * @param array $jwk
      * @return string
@@ -40,11 +48,10 @@ class JWKConverter
         }
 
         $rsa = new RSA();
-        $base64UrlDecoder = new Base64UrlDecoder();
         $rsa->loadKey(
             [
                 'e' => new BigInteger(base64_decode($jwk['e']), 256),
-                'n' => new BigInteger($base64UrlDecoder->decode($jwk['n']), 256)
+                'n' => new BigInteger($this->base64UrlDecoder->decode($jwk['n']), 256)
             ]
         );
         return $rsa->getPublicKey();
