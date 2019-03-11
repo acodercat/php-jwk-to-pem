@@ -1,5 +1,6 @@
 {
     "name": "codercat/jwk-to-pem",
+    "description": "Convert JWK to PEM format.",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -11,12 +12,22 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=7.0.0",
-        "phpseclib/phpseclib": "~2.0",
-        "ext-gmp": "*"
+        "phpseclib/phpseclib": "~2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.0"
+    },
+    "suggest": {
+        "ext-gmp":""
     },
     "autoload": {
         "psr-4": {
             "CoderCat\\JWKToPEM\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CoderCat\\JWKToPEM\\Tests\\": "tests/"
         }
     }
 }
