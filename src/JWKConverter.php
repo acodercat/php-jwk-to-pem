@@ -22,7 +22,7 @@ class JWKConverter
     /** @var Base64UrlDecoder */
     private $base64UrlDecoder;
 
-    public function __construct(?Base64UrlDecoder $base64UrlDecoder = null)
+    public function __construct(Base64UrlDecoder $base64UrlDecoder = null)
     {
         $this->base64UrlDecoder = $base64UrlDecoder ?? new Base64UrlDecoder();
     }
