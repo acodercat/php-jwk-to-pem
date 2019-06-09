@@ -1,4 +1,5 @@
 # php-jwk-to-pem
+[![Build Status](https://travis-ci.org/acodercat/php-jwk-to-pem.svg?branch=master)](https://travis-ci.org/acodercat/php-jwk-to-pem)
 
 Convert JWK to PEM format.
 
