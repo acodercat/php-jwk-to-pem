@@ -55,3 +55,6 @@ BwIDAQAB\r\n
 -----END PUBLIC KEY-----
 ```
 
+## License
+
+[MIT](LICENSE)
