@@ -4,7 +4,7 @@
 [![License](https://poser.pugx.org/codercat/jwk-to-pem/license)](https://packagist.org/packages/codercat/jwk-to-pem)
 [![Latest Stable Version](https://poser.pugx.org/codercat/jwk-to-pem/v/stable)](https://packagist.org/packages/codercat/jwk-to-pem)
 
-Convert JWK to PEM format.
+Convert JSON Web Key (JWK) to PEM format.
 
 **NOTICE:** RSA key type is currently only supported.
 
