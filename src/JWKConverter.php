@@ -75,7 +75,7 @@ class JWKConverter
                 'n' => new BigInteger($this->base64UrlDecoder->decode($jwk['n']), 256)
             ]
         );
-        die($rsa->getPublicKey());
+        
         return $rsa->getPublicKey();
     }
 
