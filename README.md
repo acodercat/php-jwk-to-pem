@@ -55,6 +55,14 @@ BwIDAQAB\r\n
 -----END PUBLIC KEY-----
 ```
 
+You can also convert multiple JWKs by using `multipleToPem`:
+
+``` php
+$keys = $jwkConverter->multipleToPEM($jwkSet);
+// $keys now contains an array of PEMs
+```
+
+
 ## License
 
 [MIT](LICENSE)
