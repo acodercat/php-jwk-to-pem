@@ -28,6 +28,27 @@ class JWKConverter
     }
 
     /**
+     * @param array $jwkSet
+     * @return string[]
+     * @throws JWKConverterException
+     * @throws Exception\Base64DecodeException
+     */
+    public function multipleToPem(array $jwkSet): array
+    {
+        $keys = [];
+
+        foreach($jwkSet as $jwk) {
+            if(!is_array($jwk)) {
+                throw new JWKConverterException('`multipleToPem` can only take in an array of JWKs.');
+            }
+
+            $keys[] = $this->toPEM($jwk);
+        }
+
+        return $keys;
+    }
+
+    /**
      * @param array $jwk
      * @return string
      * @throws Exception\Base64DecodeException
@@ -54,6 +75,7 @@ class JWKConverter
                 'n' => new BigInteger($this->base64UrlDecoder->decode($jwk['n']), 256)
             ]
         );
+        die($rsa->getPublicKey());
         return $rsa->getPublicKey();
     }
 
