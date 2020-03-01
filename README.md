@@ -37,8 +37,8 @@ $jwk = [
 Convert to PEM format:
 
 ``` php
-$convertedJwk = $jwkConverter->toPEM($jwk);
-echo $convertedJwk;
+$PEM = $jwkConverter->toPEM($jwk);
+echo $PEM;
 ```
 
 The PEM for this jwk:
@@ -58,8 +58,8 @@ BwIDAQAB\r\n
 You can also convert multiple JWKs by using `multipleToPem`:
 
 ``` php
-$keys = $jwkConverter->multipleToPEM($jwkSet);
-// $keys now contains an array of PEMs
+$PEMs = $jwkConverter->multipleToPEM($jwkSet);
+// $PEMs now contains an array of PEMs
 ```
 
 
