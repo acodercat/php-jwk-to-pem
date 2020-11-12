@@ -15,14 +15,14 @@ class JWKConverterTest extends TestCase
         $this->jwkConverter = new JwkConverter();
     }
 
-    /** @dataProvider provideMultipleToPem */
-    public function testMultipleToPem($jwkSet, $expected)
+    /** @dataProvider provideMultipleToPEM */
+    public function testMultipleToPEM($jwkSet, $expected)
     {
-        print_r($this->jwkConverter->multipleToPem($jwkSet));
-        $this->assertEquals($expected, $this->jwkConverter->multipleToPem($jwkSet));
+        print_r($this->jwkConverter->multipleToPEM($jwkSet));
+        $this->assertEquals($expected, $this->jwkConverter->multipleToPEM($jwkSet));
     }
 
-    public function provideMultipleToPem()
+    public function provideMultipleToPEM()
     {
         return [
             [
@@ -85,13 +85,13 @@ class JWKConverterTest extends TestCase
         ];
     }
 
-    /** @dataProvider provideToPem */
-    public function testToPem($jwk, $expected)
+    /** @dataProvider provideToPEM */
+    public function testToPEM($jwk, $expected)
     {
-        $this->assertEquals($expected, $this->jwkConverter->toPem($jwk));
+        $this->assertEquals($expected, $this->jwkConverter->toPEM($jwk));
     }
 
-    public function provideToPem()
+    public function provideToPEM()
     {
         return [
             [
