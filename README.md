@@ -1,5 +1,6 @@
 # php-jwk-to-pem
 [![Build Status](https://travis-ci.org/acodercat/php-jwk-to-pem.svg?branch=master)](https://travis-ci.org/acodercat/php-jwk-to-pem)
+[![codecov](https://codecov.io/gh/acodercat/php-jwk-to-pem/branch/master/graph/badge.svg)](https://codecov.io/gh/acodercat/php-jwk-to-pem)
 [![Total Downloads](https://poser.pugx.org/codercat/jwk-to-pem/downloads)](https://packagist.org/packages/codercat/jwk-to-pem)
 [![License](https://poser.pugx.org/codercat/jwk-to-pem/license)](https://packagist.org/packages/codercat/jwk-to-pem)
 [![Latest Stable Version](https://poser.pugx.org/codercat/jwk-to-pem/v/stable)](https://packagist.org/packages/codercat/jwk-to-pem)
