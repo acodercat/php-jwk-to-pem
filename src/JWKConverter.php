@@ -33,13 +33,13 @@ class JWKConverter
      * @throws JWKConverterException
      * @throws Exception\Base64DecodeException
      */
-    public function multipleToPem(array $jwkSet): array
+    public function multipleToPEM(array $jwkSet): array
     {
         $keys = [];
 
         foreach($jwkSet as $jwk) {
             if(!is_array($jwk)) {
-                throw new JWKConverterException('`multipleToPem` can only take in an array of JWKs.');
+                throw new JWKConverterException('`multipleToPEM` can only take in an array of JWKs.');
             }
 
             $keys[] = $this->toPEM($jwk);
