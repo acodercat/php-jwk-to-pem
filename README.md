@@ -55,7 +55,7 @@ BwIDAQAB\r\n
 -----END PUBLIC KEY-----
 ```
 
-You can also convert multiple JWKs by using `multipleToPem`:
+You can also convert multiple JWKs by using `multipleToPEM`:
 
 ``` php
 $PEMs = $jwkConverter->multipleToPEM($jwkSet);
