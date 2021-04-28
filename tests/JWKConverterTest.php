@@ -28,7 +28,7 @@ class JWKConverterTest extends TestCase
         $this->assertEquals($expected, $this->jwkConverter->multipleToPEM($jwkSet));
     }
 
-    public function provideMultipleToPEM()
+    public function provideMultipleToPEM(): array
     {
         return [
             [
