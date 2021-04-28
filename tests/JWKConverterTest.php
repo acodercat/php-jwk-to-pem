@@ -126,4 +126,82 @@ class JWKConverterTest extends TestCase
             ]
         ];
     }
+
+    public function provideNotSupportedKeyType(): array
+    {
+        return [
+            [
+                [
+                    "kty" => "NSA",
+                    "kid" => "zhA-H1DWOSgWQAIW7mewCYeaZLGpkgW_hXfq8jmV99I",
+                    "use" => "sig",
+                    "alg" => "RS256",
+                    "e" => "AQAB",
+                    "n" => "vdv73smpkrTIBSM8ka-pVXbNi7zYalm0R6WFBH4X8PQj8C7VfdckGsA6bTBseOVCTbu187_63yU2U7vqYiqwSLmkrBVAJjYMJY_XXfncxwqDWR_aa7eIJSKh22H_6yz6kFyF1h_ZSk68CPAEQpvd9VFAr4VLEwD32Ag6MwymSOxmFWJyddEtttdGcXLSrHcya3RWyG5KAW3Ti-HgNC-xo_C5LgEsUgjeUq-rc8NBXZrNCY-LJ_R-qtB_-5NkwlMJ_fUMBDcmZuciNOH71q7xyn0FGmGjrJXnyVJwyDiTrKRO36piMuiaJE2nIRJaLvhDN5M1K2VhSKPuaqUPyxLzBw"
+                ]
+            ]
+        ];
+    }
+
+    /** @dataProvider provideNotSupportedKeyType
+     * @param $jwk
+     * @throws Base64DecodeException
+     */
+    public function testNotSupportedKeyType($jwk)
+    {
+        $this->expectException(JWKConverterException::class);
+        $this->jwkConverter->toPEM($jwk);
+    }
+
+    public function provideNonPublicKey(): array
+    {
+        return [
+            [
+                [
+                    "kty" => "NSA",
+                    "kid" => "zhA-H1DWOSgWQAIW7mewCYeaZLGpkgW_hXfq8jmV99I",
+                    "use" => "sig",
+                    "alg" => "RS256",
+                    "e" => "AQAB",
+                    "c" => "vdv73smpkrTIBSM8ka-pVXbNi7zYalm0R6WFBH4X8PQj8C7VfdckGsA6bTBseOVCTbu187_63yU2U7vqYiqwSLmkrBVAJjYMJY_XXfncxwqDWR_aa7eIJSKh22H_6yz6kFyF1h_ZSk68CPAEQpvd9VFAr4VLEwD32Ag6MwymSOxmFWJyddEtttdGcXLSrHcya3RWyG5KAW3Ti-HgNC-xo_C5LgEsUgjeUq-rc8NBXZrNCY-LJ_R-qtB_-5NkwlMJ_fUMBDcmZuciNOH71q7xyn0FGmGjrJXnyVJwyDiTrKRO36piMuiaJE2nIRJaLvhDN5M1K2VhSKPuaqUPyxLzBw"
+                ]
+            ]
+        ];
+    }
+
+    /** @dataProvider provideNonPublicKey
+     * @param $jwk
+     * @throws Base64DecodeException
+     */
+    public function testNonPublicKey($jwk)
+    {
+        $this->expectException(JWKConverterException::class);
+        $this->jwkConverter->toPEM($jwk);
+    }
+
+    public function provideWrongPublicKey(): array
+    {
+        return [
+            [
+                [
+                    "kty1" => "NSA",
+                    "k1id" => "zhA-H1DWOSgWQAIW7mewCYeaZLGpkgW_hXfq8jmV99I",
+                    "us1e" => "sig",
+                    "al1g" => "RS256",
+                    "ee" => "AQAB",
+                    "c1" => "vdv73smpkrTIBSM8ka-pVXbNi7zYalm0R6WFBH4X8PQj8C7VfdckGsA6bTBseOVCTbu187_63yU2U7vqYiqwSLmkrBVAJjYMJY_XXfncxwqDWR_aa7eIJSKh22H_6yz6kFyF1h_ZSk68CPAEQpvd9VFAr4VLEwD32Ag6MwymSOxmFWJyddEtttdGcXLSrHcya3RWyG5KAW3Ti-HgNC-xo_C5LgEsUgjeUq-rc8NBXZrNCY-LJ_R-qtB_-5NkwlMJ_fUMBDcmZuciNOH71q7xyn0FGmGjrJXnyVJwyDiTrKRO36piMuiaJE2nIRJaLvhDN5M1K2VhSKPuaqUPyxLzBw"
+                ]
+            ]
+        ];
+    }
+
+    /** @dataProvider provideWrongPublicKey
+     * @param $jwk
+     * @throws Base64DecodeException
+     */
+    public function testWrongPublicKey($jwk)
+    {
+        $this->expectException(JWKConverterException::class);
+        $this->jwkConverter->toPEM($jwk);
+    }
 }
