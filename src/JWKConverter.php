@@ -11,21 +11,13 @@
 
 namespace CoderCat\JWKToPEM;
 
-use phpseclib\Crypt\RSA;
-use phpseclib\Math\BigInteger;
+use phpseclib3\Crypt\PublicKeyLoader;
+use phpseclib3\Math\BigInteger;
 use CoderCat\JWKToPEM\Util\Base64UrlDecoder;
 use CoderCat\JWKToPEM\Exception\JWKConverterException;
 
 class JWKConverter
 {
-
-    /** @var Base64UrlDecoder */
-    private $base64UrlDecoder;
-
-    public function __construct(Base64UrlDecoder $base64UrlDecoder = null)
-    {
-        $this->base64UrlDecoder = $base64UrlDecoder ?? new Base64UrlDecoder();
-    }
 
     /**
      * @param array $jwkSet
@@ -68,15 +60,12 @@ class JWKConverter
             throw new JWKConverterException('Public key is currently only supported.');
         }
 
-        $rsa = new RSA();
-        $rsa->loadKey(
-            [
-                'e' => new BigInteger(base64_decode($jwk['e']), 256),
-                'n' => new BigInteger($this->base64UrlDecoder->decode($jwk['n']), 256)
-            ]
-        );
-        
-        return $rsa->getPublicKey();
+        $base64UrlDecoder = new Base64UrlDecoder();
+
+        return PublicKeyLoader::load([
+            'e' => new BigInteger(base64_decode($jwk['e']), 256),
+            'n' => new BigInteger($base64UrlDecoder->decode($jwk['n']), 256)
+        ]);
     }
 
 }

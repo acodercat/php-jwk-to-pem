@@ -11,7 +11,7 @@ class JWKConverterTest extends TestCase
     /** @var JWKConverter */
     private $jwkConverter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->jwkConverter = new JwkConverter();
@@ -28,7 +28,7 @@ class JWKConverterTest extends TestCase
         $this->assertEquals($expected, $this->jwkConverter->multipleToPEM($jwkSet));
     }
 
-    public function provideMultipleToPEM()
+    public function provideMultipleToPEM(): array
     {
         return [
             [
@@ -102,7 +102,7 @@ class JWKConverterTest extends TestCase
         $this->assertEquals($expected, $this->jwkConverter->toPEM($jwk));
     }
 
-    public function provideToPEM()
+    public function provideToPEM(): array
     {
         return [
             [
