@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": ">=7.0.0",
+        "php": ">=7.1",
         "phpseclib/phpseclib": "~2.0"
     },
     "require-dev": {

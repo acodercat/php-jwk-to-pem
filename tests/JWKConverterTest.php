@@ -11,7 +11,7 @@ class JWKConverterTest extends TestCase
     /** @var JWKConverter */
     private $jwkConverter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->jwkConverter = new JwkConverter();
