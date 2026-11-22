@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the JwkFromOidcToken package.
+ * This file is part of the codercat/jwk-to-pem package.
  *
  * (c) codercat <1067302838@qq.com>
  *
@@ -23,9 +23,11 @@ class Base64UrlDecoder
     public function decode(string $str): string
     {
         $decoded = base64_decode(strtr($str, '-_', '+/'), true);
-        if (!$decoded) {
+
+        if ($decoded === false || $decoded === '') {
             throw new Base64DecodeException();
         }
+
         return $decoded;
     }
 }

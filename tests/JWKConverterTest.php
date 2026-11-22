@@ -1,4 +1,5 @@
 <?php
+
 namespace CoderCat\JWKToPEM\Tests;
 
 use CoderCat\JWKToPEM\Exception\Base64DecodeException;
@@ -8,127 +9,87 @@ use PHPUnit\Framework\TestCase;
 
 class JWKConverterTest extends TestCase
 {
+    private const N = 'vdv73smpkrTIBSM8ka-pVXbNi7zYalm0R6WFBH4X8PQj8C7VfdckGsA6bTBseOVCTbu187_63yU2U7vqYiqwSLmkrBVAJjYMJY_XXfncxwqDWR_aa7eIJSKh22H_6yz6kFyF1h_ZSk68CPAEQpvd9VFAr4VLEwD32Ag6MwymSOxmFWJyddEtttdGcXLSrHcya3RWyG5KAW3Ti-HgNC-xo_C5LgEsUgjeUq-rc8NBXZrNCY-LJ_R-qtB_-5NkwlMJ_fUMBDcmZuciNOH71q7xyn0FGmGjrJXnyVJwyDiTrKRO36piMuiaJE2nIRJaLvhDN5M1K2VhSKPuaqUPyxLzBw';
+
+    private const PEM = "-----BEGIN PUBLIC KEY-----\r\n"
+        . "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvdv73smpkrTIBSM8ka+p\r\n"
+        . "VXbNi7zYalm0R6WFBH4X8PQj8C7VfdckGsA6bTBseOVCTbu187/63yU2U7vqYiqw\r\n"
+        . "SLmkrBVAJjYMJY/XXfncxwqDWR/aa7eIJSKh22H/6yz6kFyF1h/ZSk68CPAEQpvd\r\n"
+        . "9VFAr4VLEwD32Ag6MwymSOxmFWJyddEtttdGcXLSrHcya3RWyG5KAW3Ti+HgNC+x\r\n"
+        . "o/C5LgEsUgjeUq+rc8NBXZrNCY+LJ/R+qtB/+5NkwlMJ/fUMBDcmZuciNOH71q7x\r\n"
+        . "yn0FGmGjrJXnyVJwyDiTrKRO36piMuiaJE2nIRJaLvhDN5M1K2VhSKPuaqUPyxLz\r\n"
+        . "BwIDAQAB\r\n"
+        . "-----END PUBLIC KEY-----";
+
     /** @var JWKConverter */
     private $jwkConverter;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->jwkConverter = new JwkConverter();
+        $this->jwkConverter = new JWKConverter();
     }
 
-    /** @dataProvider provideToPEM
-     * @param $jwk
-     * @param $expected
-     * @throws Base64DecodeException
-     * @throws JWKConverterException
-     */
-    public function testToPEM($jwk, $expected)
+    private static function rsaPublicKey(array $overrides = []): array
     {
-        $this->assertEquals($expected, $this->jwkConverter->toPEM($jwk));
+        return array_merge([
+            'kty' => 'RSA',
+            'kid' => 'zhA-H1DWOSgWQAIW7mewCYeaZLGpkgW_hXfq8jmV99I',
+            'use' => 'sig',
+            'alg' => 'RS256',
+            'e' => 'AQAB',
+            'n' => self::N,
+        ], $overrides);
     }
 
-    public function provideToPEM(): array
+    public function testToPEM()
     {
+        $this->assertSame(self::PEM, $this->jwkConverter->toPEM(self::rsaPublicKey()));
+    }
+
+    public static function provideInvalidJwk(): array
+    {
+        $withoutKty = self::rsaPublicKey();
+        unset($withoutKty['kty']);
+        $withoutN = self::rsaPublicKey();
+        unset($withoutN['n']);
+        $withoutE = self::rsaPublicKey();
+        unset($withoutE['e']);
+
         return [
-            [
-                [
-                    "kty" => "RSA",
-                    "kid" => "zhA-H1DWOSgWQAIW7mewCYeaZLGpkgW_hXfq8jmV99I",
-                    "use" => "sig",
-                    "alg" => "RS256",
-                    "e" => "AQAB",
-                    "n" => "vdv73smpkrTIBSM8ka-pVXbNi7zYalm0R6WFBH4X8PQj8C7VfdckGsA6bTBseOVCTbu187_63yU2U7vqYiqwSLmkrBVAJjYMJY_XXfncxwqDWR_aa7eIJSKh22H_6yz6kFyF1h_ZSk68CPAEQpvd9VFAr4VLEwD32Ag6MwymSOxmFWJyddEtttdGcXLSrHcya3RWyG5KAW3Ti-HgNC-xo_C5LgEsUgjeUq-rc8NBXZrNCY-LJ_R-qtB_-5NkwlMJ_fUMBDcmZuciNOH71q7xyn0FGmGjrJXnyVJwyDiTrKRO36piMuiaJE2nIRJaLvhDN5M1K2VhSKPuaqUPyxLzBw"
-                ],
-                "-----BEGIN PUBLIC KEY-----\r\n"
-                . "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvdv73smpkrTIBSM8ka+p\r\n"
-                . "VXbNi7zYalm0R6WFBH4X8PQj8C7VfdckGsA6bTBseOVCTbu187/63yU2U7vqYiqw\r\n"
-                . "SLmkrBVAJjYMJY/XXfncxwqDWR/aa7eIJSKh22H/6yz6kFyF1h/ZSk68CPAEQpvd\r\n"
-                . "9VFAr4VLEwD32Ag6MwymSOxmFWJyddEtttdGcXLSrHcya3RWyG5KAW3Ti+HgNC+x\r\n"
-                . "o/C5LgEsUgjeUq+rc8NBXZrNCY+LJ/R+qtB/+5NkwlMJ/fUMBDcmZuciNOH71q7x\r\n"
-                . "yn0FGmGjrJXnyVJwyDiTrKRO36piMuiaJE2nIRJaLvhDN5M1K2VhSKPuaqUPyxLz\r\n"
-                . "BwIDAQAB\r\n"
-                . "-----END PUBLIC KEY-----"
-            ]
+            'empty' => [[]],
+            'missing kty' => [$withoutKty],
+            'missing n' => [$withoutN],
+            'missing e' => [$withoutE],
+            'non-string n' => [self::rsaPublicKey(['n' => ['foo']])],
+            'unsupported key type' => [self::rsaPublicKey(['kty' => 'EC'])],
+            'private key' => [self::rsaPublicKey(['d' => 'AQAB'])],
         ];
     }
 
-    public function provideNotSupportedKeyType(): array
-    {
-        return [
-            [
-                [
-                    "kty" => "NSA",
-                    "kid" => "zhA-H1DWOSgWQAIW7mewCYeaZLGpkgW_hXfq8jmV99I",
-                    "use" => "sig",
-                    "alg" => "RS256",
-                    "e" => "AQAB",
-                    "n" => "vdv73smpkrTIBSM8ka-pVXbNi7zYalm0R6WFBH4X8PQj8C7VfdckGsA6bTBseOVCTbu187_63yU2U7vqYiqwSLmkrBVAJjYMJY_XXfncxwqDWR_aa7eIJSKh22H_6yz6kFyF1h_ZSk68CPAEQpvd9VFAr4VLEwD32Ag6MwymSOxmFWJyddEtttdGcXLSrHcya3RWyG5KAW3Ti-HgNC-xo_C5LgEsUgjeUq-rc8NBXZrNCY-LJ_R-qtB_-5NkwlMJ_fUMBDcmZuciNOH71q7xyn0FGmGjrJXnyVJwyDiTrKRO36piMuiaJE2nIRJaLvhDN5M1K2VhSKPuaqUPyxLzBw"
-                ]
-            ]
-        ];
-    }
-
-    /** @dataProvider provideNotSupportedKeyType
-     * @param $jwk
-     * @throws Base64DecodeException
+    /**
+     * @dataProvider provideInvalidJwk
      */
-    public function testNotSupportedKeyType($jwk)
+    public function testInvalidJwk(array $jwk)
     {
         $this->expectException(JWKConverterException::class);
         $this->jwkConverter->toPEM($jwk);
     }
 
-    public function provideNonPublicKey(): array
+    public static function provideInvalidBase64(): array
     {
         return [
-            [
-                [
-                    "kty" => "NSA",
-                    "kid" => "zhA-H1DWOSgWQAIW7mewCYeaZLGpkgW_hXfq8jmV99I",
-                    "use" => "sig",
-                    "alg" => "RS256",
-                    "e" => "AQAB",
-                    "c" => "vdv73smpkrTIBSM8ka-pVXbNi7zYalm0R6WFBH4X8PQj8C7VfdckGsA6bTBseOVCTbu187_63yU2U7vqYiqwSLmkrBVAJjYMJY_XXfncxwqDWR_aa7eIJSKh22H_6yz6kFyF1h_ZSk68CPAEQpvd9VFAr4VLEwD32Ag6MwymSOxmFWJyddEtttdGcXLSrHcya3RWyG5KAW3Ti-HgNC-xo_C5LgEsUgjeUq-rc8NBXZrNCY-LJ_R-qtB_-5NkwlMJ_fUMBDcmZuciNOH71q7xyn0FGmGjrJXnyVJwyDiTrKRO36piMuiaJE2nIRJaLvhDN5M1K2VhSKPuaqUPyxLzBw"
-                ]
-            ]
+            'invalid n' => [self::rsaPublicKey(['n' => '!!!'])],
+            'invalid e' => [self::rsaPublicKey(['e' => '!!!'])],
         ];
     }
 
-    /** @dataProvider provideNonPublicKey
-     * @param $jwk
-     * @throws Base64DecodeException
+    /**
+     * @dataProvider provideInvalidBase64
      */
-    public function testNonPublicKey($jwk)
+    public function testInvalidBase64(array $jwk)
     {
-        $this->expectException(JWKConverterException::class);
+        $this->expectException(Base64DecodeException::class);
         $this->jwkConverter->toPEM($jwk);
     }
-
-    public function provideWrongPublicKey(): array
-    {
-        return [
-            [
-                [
-                    "kty1" => "NSA",
-                    "k1id" => "zhA-H1DWOSgWQAIW7mewCYeaZLGpkgW_hXfq8jmV99I",
-                    "us1e" => "sig",
-                    "al1g" => "RS256",
-                    "ee" => "AQAB",
-                    "c1" => "vdv73smpkrTIBSM8ka-pVXbNi7zYalm0R6WFBH4X8PQj8C7VfdckGsA6bTBseOVCTbu187_63yU2U7vqYiqwSLmkrBVAJjYMJY_XXfncxwqDWR_aa7eIJSKh22H_6yz6kFyF1h_ZSk68CPAEQpvd9VFAr4VLEwD32Ag6MwymSOxmFWJyddEtttdGcXLSrHcya3RWyG5KAW3Ti-HgNC-xo_C5LgEsUgjeUq-rc8NBXZrNCY-LJ_R-qtB_-5NkwlMJ_fUMBDcmZuciNOH71q7xyn0FGmGjrJXnyVJwyDiTrKRO36piMuiaJE2nIRJaLvhDN5M1K2VhSKPuaqUPyxLzBw"
-                ]
-            ]
-        ];
-    }
-
-    /** @dataProvider provideWrongPublicKey
-     * @param $jwk
-     * @throws Base64DecodeException
-     */
-    public function testWrongPublicKey($jwk)
-    {
-        $this->expectException(JWKConverterException::class);
-        $this->jwkConverter->toPEM($jwk);
-    }
-
 }

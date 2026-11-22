@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the JwkFromOidcToken package.
+ * This file is part of the codercat/jwk-to-pem package.
  *
  * (c) codercat <1067302838@qq.com>
  *
@@ -11,27 +11,31 @@
 
 namespace CoderCat\JWKToPEM;
 
+use CoderCat\JWKToPEM\Exception\Base64DecodeException;
+use CoderCat\JWKToPEM\Exception\JWKConverterException;
+use CoderCat\JWKToPEM\Util\Base64UrlDecoder;
 use phpseclib3\Crypt\PublicKeyLoader;
 use phpseclib3\Math\BigInteger;
-use CoderCat\JWKToPEM\Util\Base64UrlDecoder;
-use CoderCat\JWKToPEM\Exception\JWKConverterException;
 
 class JWKConverter
 {
-
     /**
+     * Convert an RSA public JWK to a PEM encoded public key.
+     *
      * @param array $jwk
      * @return string
-     * @throws Exception\Base64DecodeException
+     * @throws Base64DecodeException
      * @throws JWKConverterException
      */
     public function toPEM(array $jwk): string
     {
-        if (!array_key_exists('e', $jwk) || !array_key_exists('n', $jwk) || !array_key_exists('kty', $jwk)) {
-            throw new JWKConverterException();
+        foreach (['kty', 'n', 'e'] as $param) {
+            if (!isset($jwk[$param]) || !is_string($jwk[$param])) {
+                throw new JWKConverterException(sprintf('Missing or invalid "%s" parameter.', $param));
+            }
         }
 
-        if ($jwk['kty'] != 'RSA') {
+        if ($jwk['kty'] !== 'RSA') {
             throw new JWKConverterException('RSA key type is currently only supported.');
         }
 
@@ -41,10 +45,9 @@ class JWKConverter
 
         $base64UrlDecoder = new Base64UrlDecoder();
 
-        return PublicKeyLoader::load([
-            'e' => new BigInteger(base64_decode($jwk['e']), 256),
-            'n' => new BigInteger($base64UrlDecoder->decode($jwk['n']), 256)
+        return (string) PublicKeyLoader::load([
+            'e' => new BigInteger($base64UrlDecoder->decode($jwk['e']), 256),
+            'n' => new BigInteger($base64UrlDecoder->decode($jwk['n']), 256),
         ]);
     }
-
 }

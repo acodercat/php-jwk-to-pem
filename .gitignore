@@ -2,3 +2,5 @@
 /.idea
 .DS_Store
 composer.lock
+.phpunit.result.cache
+/coverage.xml
