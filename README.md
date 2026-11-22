@@ -5,9 +5,17 @@
 [![License](https://poser.pugx.org/codercat/jwk-to-pem/license)](https://packagist.org/packages/codercat/jwk-to-pem)
 [![Latest Stable Version](https://poser.pugx.org/codercat/jwk-to-pem/v/stable)](https://packagist.org/packages/codercat/jwk-to-pem)
 
-Convert JSON Web Key (JWK) to PEM format.
+Convert a public JSON Web Key (JWK) to PEM format.
 
-**NOTICE:** RSA key type is currently only supported.
+Supported key types:
+
+| `kty` | Curves (`crv`) |
+|---|---|
+| `RSA` | |
+| `EC` | `P-256`, `P-384`, `P-521`, `secp256k1` |
+| `OKP` | `Ed25519`, `Ed448` |
+
+Only public keys are supported. A JWK containing private key material (`d`) is rejected.
 
 ## Installation
 
@@ -24,40 +32,37 @@ use CoderCat\JWKToPEM\JWKConverter;
 
 $jwkConverter = new JWKConverter();
 
-// !!!! RSA key type is currently only supported.
-$JWK = [
-    "kty" => "RSA",
-    "kid" => "zhA-H1DWOSgWQAIW7mewCYeaZLGpkgW_hXfq8jmV99I",
-    "use" => "sig",
-    "alg" => "RS256",
-    "e" => "AQAB",
-    "n" => "vdv73smpkrTIBSM8ka-pVXbNi7zYalm0R6WFBH4X8PQj8C7VfdckGsA6bTBseOVCTbu187_63yU2U7vqYiqwSLmkrBVAJjYMJY_XXfncxwqDWR_aa7eIJSKh22H_6yz6kFyF1h_ZSk68CPAEQpvd9VFAr4VLEwD32Ag6MwymSOxmFWJyddEtttdGcXLSrHcya3RWyG5KAW3Ti-HgNC-xo_C5LgEsUgjeUq-rc8NBXZrNCY-LJ_R-qtB_-5NkwlMJ_fUMBDcmZuciNOH71q7xyn0FGmGjrJXnyVJwyDiTrKRO36piMuiaJE2nIRJaLvhDN5M1K2VhSKPuaqUPyxLzBw"
+$jwk = [
+    "kty" => "EC",
+    "crv" => "P-256",
+    "x" => "z-NPCaGCMhI6how5Ujj4udNfAnphLXNZ71IU_VGooRU",
+    "y" => "-Ulv1IoijhEc9i2URAL8XRq8FKQ-HdKH0byaj3w0Moc",
 ];
 
+$pem = $jwkConverter->toPEM($jwk);
 ```
-Convert to PEM:
 
-``` php
-$PEM = $jwkConverter->toPEM($JWK);
-```
 The PEM for this JWK (lines are separated by `\r\n`):
 
 ```
 -----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvdv73smpkrTIBSM8ka+p
-VXbNi7zYalm0R6WFBH4X8PQj8C7VfdckGsA6bTBseOVCTbu187/63yU2U7vqYiqw
-SLmkrBVAJjYMJY/XXfncxwqDWR/aa7eIJSKh22H/6yz6kFyF1h/ZSk68CPAEQpvd
-9VFAr4VLEwD32Ag6MwymSOxmFWJyddEtttdGcXLSrHcya3RWyG5KAW3Ti+HgNC+x
-o/C5LgEsUgjeUq+rc8NBXZrNCY+LJ/R+qtB/+5NkwlMJ/fUMBDcmZuciNOH71q7x
-yn0FGmGjrJXnyVJwyDiTrKRO36piMuiaJE2nIRJaLvhDN5M1K2VhSKPuaqUPyxLz
-BwIDAQAB
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEz+NPCaGCMhI6how5Ujj4udNfAnph
+LXNZ71IU/VGooRX5SW/UiiKOERz2LZREAvxdGrwUpD4d0ofRvJqPfDQyhw==
 -----END PUBLIC KEY-----
 ```
 
-## Test
+RSA keys work the same way, using the `n` and `e` parameters.
+
+### Errors
+
+- `CoderCat\JWKToPEM\Exception\JWKConverterException` is thrown when the JWK is missing a required parameter, has an unsupported key type or curve, contains a private key, or describes an invalid key.
+- `CoderCat\JWKToPEM\Exception\Base64DecodeException` is thrown when a key parameter is not valid base64url.
+
+## Development
 
 ``` bash
-composer test
+composer test      # run the test suite
+composer analyse   # run PHPStan
 ```
 
 ## License

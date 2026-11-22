@@ -8,6 +8,9 @@ use PHPUnit\Framework\TestCase;
 
 class Base64UrlDecoderTest extends TestCase
 {
+    /**
+     * @return array<string, array{string, string}>
+     */
     public static function provideDecode(): array
     {
         return [
@@ -20,11 +23,14 @@ class Base64UrlDecoderTest extends TestCase
     /**
      * @dataProvider provideDecode
      */
-    public function testDecode(string $input, string $expected)
+    public function testDecode(string $input, string $expected): void
     {
         $this->assertSame($expected, (new Base64UrlDecoder())->decode($input));
     }
 
+    /**
+     * @return array<string, array{string}>
+     */
     public static function provideInvalid(): array
     {
         return [
@@ -36,7 +42,7 @@ class Base64UrlDecoderTest extends TestCase
     /**
      * @dataProvider provideInvalid
      */
-    public function testInvalid(string $input)
+    public function testInvalid(string $input): void
     {
         $this->expectException(Base64DecodeException::class);
         (new Base64UrlDecoder())->decode($input);
