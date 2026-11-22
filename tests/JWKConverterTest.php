@@ -30,6 +30,10 @@ class JWKConverterTest extends TestCase
         $this->jwkConverter = new JWKConverter();
     }
 
+    /**
+     * @param array<string, mixed> $overrides
+     * @return array<string, mixed>
+     */
     private static function rsaPublicKey(array $overrides = []): array
     {
         return array_merge([
@@ -42,11 +46,14 @@ class JWKConverterTest extends TestCase
         ], $overrides);
     }
 
-    public function testToPEM()
+    public function testToPEM(): void
     {
         $this->assertSame(self::PEM, $this->jwkConverter->toPEM(self::rsaPublicKey()));
     }
 
+    /**
+     * @return array<string, array{array<string, mixed>}>
+     */
     public static function provideInvalidJwk(): array
     {
         $withoutKty = self::rsaPublicKey();
@@ -69,13 +76,17 @@ class JWKConverterTest extends TestCase
 
     /**
      * @dataProvider provideInvalidJwk
+     * @param array<string, mixed> $jwk
      */
-    public function testInvalidJwk(array $jwk)
+    public function testInvalidJwk(array $jwk): void
     {
         $this->expectException(JWKConverterException::class);
         $this->jwkConverter->toPEM($jwk);
     }
 
+    /**
+     * @return array<string, array{array<string, mixed>}>
+     */
     public static function provideInvalidBase64(): array
     {
         return [
@@ -86,8 +97,9 @@ class JWKConverterTest extends TestCase
 
     /**
      * @dataProvider provideInvalidBase64
+     * @param array<string, mixed> $jwk
      */
-    public function testInvalidBase64(array $jwk)
+    public function testInvalidBase64(array $jwk): void
     {
         $this->expectException(Base64DecodeException::class);
         $this->jwkConverter->toPEM($jwk);

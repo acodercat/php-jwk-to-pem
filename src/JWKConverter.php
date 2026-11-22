@@ -22,7 +22,7 @@ class JWKConverter
     /**
      * Convert an RSA public JWK to a PEM encoded public key.
      *
-     * @param array $jwk
+     * @param array<string, mixed> $jwk
      * @return string
      * @throws Base64DecodeException
      * @throws JWKConverterException
