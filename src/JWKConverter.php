@@ -108,7 +108,7 @@ class JWKConverter
             $decoded = $this->base64UrlDecoder->decode($value);
 
             if ($keyType === 'OKP') {
-                $this->assertOkpKeySize($publicJwk['crv'], $decoded);
+                $this->assertOkpKeySize($this->getStringParameter($jwk, 'crv'), $decoded);
             }
 
             $publicJwk[$name] = rtrim(strtr(base64_encode($decoded), '+/', '-_'), '=');
