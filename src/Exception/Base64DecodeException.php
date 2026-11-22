@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the JwkFromOidcToken package.
+ * This file is part of the codercat/jwk-to-pem package.
  *
  * (c) codercat <1067302838@qq.com>
  *
@@ -10,7 +10,6 @@
  */
 
 namespace CoderCat\JWKToPEM\Exception;
-
 
 class Base64DecodeException extends \Exception
 {

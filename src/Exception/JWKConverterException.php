@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the JwkFromOidcToken package.
+ * This file is part of the codercat/jwk-to-pem package.
  *
  * (c) codercat <1067302838@qq.com>
  *
@@ -11,8 +11,7 @@
 
 namespace CoderCat\JWKToPEM\Exception;
 
-
-class JWKConverterException  extends \Exception
+class JWKConverterException extends \Exception
 {
     protected $message = 'This JWK cannot be converted to PEM format.';
 }
