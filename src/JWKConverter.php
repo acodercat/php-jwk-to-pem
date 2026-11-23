@@ -14,7 +14,7 @@ namespace CoderCat\JWKToPEM;
 use CoderCat\JWKToPEM\Exception\Base64DecodeException;
 use CoderCat\JWKToPEM\Exception\JWKConverterException;
 use CoderCat\JWKToPEM\Util\Base64UrlDecoder;
-use phpseclib3\Crypt\PublicKeyLoader;
+use phpseclib4\Crypt\PublicKeyLoader;
 
 class JWKConverter
 {
@@ -65,13 +65,7 @@ class JWKConverter
             throw new JWKConverterException(sprintf('Unable to load the key: %s', $e->getMessage()), 0, $e);
         }
 
-        $pem = $key->toString('PKCS8');
-
-        if (!is_string($pem)) {
-            throw new JWKConverterException('Unable to export the key as PEM.');
-        }
-
-        return $pem;
+        return $key->toString('PKCS8');
     }
 
     /**
