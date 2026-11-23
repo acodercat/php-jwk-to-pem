@@ -39,7 +39,7 @@ jobs:
 
       - name: Run tests with coverage
         if: matrix.php == '8.3'
-        run: vendor/bin/phpunit --coverage-filter src --coverage-clover coverage.xml
+        run: vendor/bin/phpunit --coverage-clover coverage.xml
 
       - uses: codecov/codecov-action@v7
         if: matrix.php == '8.3'

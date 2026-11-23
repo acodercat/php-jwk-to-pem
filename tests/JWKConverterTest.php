@@ -5,6 +5,7 @@ namespace CoderCat\JWKToPEM\Tests;
 use CoderCat\JWKToPEM\Exception\Base64DecodeException;
 use CoderCat\JWKToPEM\Exception\JWKConverterException;
 use CoderCat\JWKToPEM\JWKConverter;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class JWKConverterTest extends TestCase
@@ -168,9 +169,9 @@ class JWKConverterTest extends TestCase
     }
 
     /**
-     * @dataProvider provideToPEM
      * @param array<string, mixed> $jwk
      */
+    #[DataProvider('provideToPEM')]
     public function testToPEM(array $jwk, string $expected): void
     {
         $this->assertSame($expected, $this->jwkConverter->toPEM($jwk));
@@ -214,9 +215,9 @@ class JWKConverterTest extends TestCase
     }
 
     /**
-     * @dataProvider provideInvalidJwk
      * @param array<string, mixed> $jwk
      */
+    #[DataProvider('provideInvalidJwk')]
     public function testInvalidJwk(array $jwk): void
     {
         $this->expectException(JWKConverterException::class);
@@ -238,9 +239,9 @@ class JWKConverterTest extends TestCase
     }
 
     /**
-     * @dataProvider provideInvalidBase64
      * @param array<string, mixed> $jwk
      */
+    #[DataProvider('provideInvalidBase64')]
     public function testInvalidBase64(array $jwk): void
     {
         $this->expectException(Base64DecodeException::class);

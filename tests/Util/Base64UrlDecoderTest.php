@@ -4,6 +4,7 @@ namespace CoderCat\JWKToPEM\Tests\Util;
 
 use CoderCat\JWKToPEM\Exception\Base64DecodeException;
 use CoderCat\JWKToPEM\Util\Base64UrlDecoder;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class Base64UrlDecoderTest extends TestCase
@@ -20,9 +21,7 @@ class Base64UrlDecoderTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideDecode
-     */
+    #[DataProvider('provideDecode')]
     public function testDecode(string $input, string $expected): void
     {
         $this->assertSame($expected, (new Base64UrlDecoder())->decode($input));
@@ -39,9 +38,7 @@ class Base64UrlDecoderTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideInvalid
-     */
+    #[DataProvider('provideInvalid')]
     public function testInvalid(string $input): void
     {
         $this->expectException(Base64DecodeException::class);

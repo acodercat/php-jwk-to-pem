@@ -23,6 +23,8 @@ Only public keys are supported. A JWK containing private key material (`d`) is r
 composer require codercat/jwk-to-pem
 ```
 
+Requires PHP 8.1 or later.
+
 ## Usage
 
 ``` php
